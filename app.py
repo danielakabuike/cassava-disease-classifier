@@ -54,11 +54,12 @@ def classify(image, threshold):
     return label_scores, verdict
 
 
-with gr.Blocks(title="Cassava Disease Classifier (Nigeria)") as demo:
+with gr.Blocks(title="AgroControl — Cassava Leaf Disease Prediction") as demo:
     gr.Markdown(
-        "# 🌿 Cassava Leaf Disease Classifier\n"
-        "AI component of an IoT system for cassava disease management & precision "
-        "irrigation (Raspberry Pi 3B deployment). Upload a leaf photo to get a "
+        "# 🌿 AgroControl — Cassava Leaf Disease Prediction Model\n"
+        "### Built by Akabuike Daniel\n"
+        "AI component of an IoT system for cassava disease management  "
+        "for a Raspberry Pi 3B deployment. Upload a leaf photo to get a "
         "disease prediction with a calibrated confidence score.\n\n"
         f"{_schema_note}\n\n"
         "> Below the confidence threshold the model honestly returns "
@@ -77,6 +78,7 @@ with gr.Blocks(title="Cassava Disease Classifier (Nigeria)") as demo:
         "Classes: "
         + ", ".join(LABEL_MAP.values())
         + "\n\n*Research/education prototype — not a substitute for agronomic advice.*"
+         + "\n\n*Done by DTRINO .*"
     )
 
 
