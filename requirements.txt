@@ -1,4 +1,4 @@
 gradio
-numpy
+numpy<2
 pillow
 tflite-runtime
