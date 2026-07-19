@@ -65,24 +65,24 @@ UNCERTAIN_LABEL = "Uncertain — please retake photo"
 
 
 def _load_interpreter(model_path: Path):
-    """Prefer tflite-runtime (light); fall back to tf.lite with a clear hint."""
-    try:
-        import tflite_runtime.interpreter as tflite
-        return tflite.Interpreter(model_path=str(model_path))
-    except ImportError:
-        try:
-            import tensorflow as tf
-            print("[predict] tflite-runtime not found; using full tensorflow. "
-                  "On the Pi install the lighter runtime:\n"
-                  "  pip install tflite-runtime", file=sys.stderr)
-            return tf.lite.Interpreter(model_path=str(model_path))
-        except ImportError:
-            sys.exit(
-                "ERROR: no TFLite runtime available.\n"
-                "Install the lightweight runtime on the Raspberry Pi with:\n"
-                "  pip install tflite-runtime\n"
-                "(or 'pip install tensorflow' on a full workstation).")
-
+      """Prefer LiteRT (current), then tflite-runtime, then full TF."""
+      try:
+          from ai_edge_litert.interpreter import Interpreter
+          return Interpreter(model_path=str(model_path))
+      except ImportError:
+          pass
+      try:
+          import tflite_runtime.interpreter as tflite
+          return tflite.Interpreter(model_path=str(model_path))
+      except ImportError:
+          try:
+              import tensorflow as tf
+              print("[predict] using full tensorflow", file=sys.stderr)
+              return tf.lite.Interpreter(model_path=str(model_path))
+          except ImportError:
+              sys.exit(
+                  "ERROR: no TFLite runtime available.\n"
+                  "Install one with:  pip install ai-edge-litert")
 
 def _preprocess(image_path: Path) -> np.ndarray:
     from PIL import Image
